@@ -377,7 +377,7 @@ function studentInit(){
     const name = document.getElementById('s-name').value.trim();
     const cls = document.getElementById('s-class').value.trim();
     if(!name || !cls) return alert('Masukkan nama dan kelas.');
-    save(KEY_CUR, { name, className: cls });
+    localStorage.setItem(KEY_CUR, JSON.stringify({ name, className: cls }));
     // after login go to dashboard hash
     location.hash = '#dashboard';
   });
@@ -440,7 +440,7 @@ function studentInit(){
 
   /* ------------------ Rendering student dashboard ---------------- */
   async function renderStudentDashboard(){
-    const cur = load(KEY_CUR, null); // tetap localStorage untuk session
+    const cur = JSON.parse(localStorage.getItem(KEY_CUR) || 'null'); // localStorage untuk session
     if(!cur) { // no session -> show login
       location.hash = '#login';
       return;
@@ -529,7 +529,7 @@ function studentInit(){
 
   /* ------------------ Start a stage (or view result if already done) ---------------- */
   async function startStage(stage){
-    const cur = load(KEY_CUR, null); // localStorage
+    const cur = JSON.parse(localStorage.getItem(KEY_CUR) || 'null'); // localStorage
     if(!cur) return alert('Silakan login terlebih dahulu.');
     const results = await load(KEY_R, []);
     const existing = results.find(r => r.student === cur.name && r.className === cur.className && r.stage === stage);
@@ -651,7 +651,7 @@ function studentInit(){
     const percentage = Math.round((earned / totalScore) * 100);
 
     // save result
-    const cur = load(KEY_CUR); // localStorage
+    const cur = JSON.parse(localStorage.getItem(KEY_CUR) || 'null'); // localStorage
     const results = await load(KEY_R, []);
     const rec = {
       timestamp: Date.now(),
@@ -713,3 +713,4 @@ function studentInit(){
  - All data persisted in localStorage; for production you would replace with server-side storage
  - UI elements are simple; style and enhancements live in style.css
 */
+
