@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHECKMyXy — Student</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="site-header">
+  <div class="logo">CHECKMyXy</div>
+  <nav class="nav">
+    <a href="index.html">HOME</a>
+    <a class="active" href="student.html#login">STUDENT</a>
+    <a href="teacher.html#login">TEACHER</a>
+    <a href="info.html">INFO</a>
+  </nav>
+</header>
+
+<main class="container">
+
+  <!-- =============== LOGIN VIEW =============== -->
+  <section id="student-login-view" class="view-card">
+    <div class="card small-card">
+      <h2>Login Siswa</h2>
+      <form id="student-login-form">
+        <label>Nama Lengkap</label>
+        <input id="s-name" type="text" placeholder="Cth: Eliano Reijnders" required>
+
+        <label>Kelas</label>
+        <input id="s-class" type="text" placeholder="Cth: IX A" required>
+
+        <button type="submit" class="btn">Masuk</button>
+      </form>
+    </div>
+  </section>
+
+
+  <!-- =============== STUDENT DASHBOARD =============== -->
+  <section id="student-dashboard-view" class="view-card hidden">
+    <div class="card">
+      <div class="row" style="justify-content:space-between;">
+        <h2>Dashboard Siswa</h2>
+        <button id="student-logout" class="btn ghost">Logout</button>
+      </div>
+
+      <p id="student-hello" class="muted"></p>
+
+      <div class="stage-grid">
+
+        <div class="stage-card" id="stage-1-card">
+          <h3>Stage 1 (Mudah)</h3>
+          <p>Status: <span id="stage1-status">Belum dikerjakan</span></p>
+          <button class="btn" id="stage1-btn">Mulai</button>
+        </div>
+
+        <div class="stage-card locked" id="stage-2-card">
+          <h3>Stage 2 (Sedang)</h3>
+          <p>Status: <span id="stage2-status">Terkunci</span></p>
+          <button class="btn" id="stage2-btn" disabled>Mulai</button>
+        </div>
+
+        <div class="stage-card locked" id="stage-3-card">
+          <h3>Stage 3 (Sulit)</h3>
+          <p>Status: <span id="stage3-status">Terkunci</span></p>
+          <button class="btn" id="stage3-btn" disabled>Mulai</button>
+        </div>
+
+      </div>
+
+      <div class="final-result-card hidden" id="final-result-box">
+        <h3>Hasil Akhir</h3>
+        <p>Total Nilai: <span id="final-score"></span></p>
+        <p>Reward: <span id="final-reward"></span></p>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- =============== QUIZ VIEW =============== -->
+  <section id="stage-question-view" class="view-card hidden">
+    <div class="quiz-card">
+      <h2 id="stage-title">Stage</h2>
+      <div id="question-box"></div>
+
+      <div class="quiz-buttons">
+        <button id="btn-back" class="btn ghost">Back</button>
+        <button id="btn-next" class="btn">Next</button>
+        <button id="btn-finish" class="btn hidden">Finish</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =============== RESULT VIEW =============== -->
+  <section id="stage-result-view" class="view-card hidden">
+    <div class="card">
+      <h2 id="stage-result-title">Hasil Stage</h2>
+
+      <p>Benar: <span id="r-correct"></span></p>
+      <p>Salah: <span id="r-wrong"></span></p>
+      <p>Skor: <span id="r-score"></span></p>
+      <p>Feedback: <span id="r-feedback"></span></p>
+
+      <h3 style="margin-top:20px;">Pembahasan</h3>
+      <div id="r-explanations"></div>
+
+      <button class="btn" onclick="location.hash='student.html#dashboard'">Kembali</button>
+    </div>
+  </section>
+
+</main>
+
+
+<footer class="site-footer">
+  © 2025 CHECKMyXy — Asesmen Interaktif
+</footer>
+
+<script type="module" src="firebase-config.js"></script>
+<script src="script.js"></script>
+
+<script>
+if (!location.hash) location.hash = "#login";
+window.addEventListener("hashchange", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+</script>
+
+</body>
+</html>

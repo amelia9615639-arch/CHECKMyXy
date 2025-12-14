@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CHECKMyXy — Teacher</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- HEADER / NAV -->
+  <header class="site-header">
+    <div class="logo">CHECKMyXy</div>
+    <nav class="nav">
+      <a href="index.html" class="nav-link">HOME</a>
+      <a href="teacher.html#login" class="nav-link active">TEACHER</a>
+      <a href="student.html#login" class="nav-link">STUDENT</a>
+      <a href="info.html" class="nav-link">INFO</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- ====== VIEW: LOGIN (teacher.html#login) ====== -->
+    <section id="view-login" class="view-card">
+      <div class="card small-card">
+        <h2>Login Guru</h2>
+        <form id="teacher-login-form">
+          <label>Username</label>
+          <input id="t-username" type="text" placeholder="Username" required />
+          <label>Password</label>
+          <input id="t-password" type="password" placeholder="Password" required />
+          <div class="row" style="margin-top:10px;">
+            <button class="btn" type="submit">Login</button>
+            <button id="btn-sample-reset" class="btn ghost" type="button">Reset Data (dev)</button>
+          </div>
+          <!-- <p class="muted" style="margin-top:8px;">Demo password: <strong>teacher123</strong></p> -->
+        </form>
+      </div>
+    </section>
+
+    <!-- ====== VIEW: DASHBOARD (teacher.html#dashboard) ====== -->
+    <section id="view-dashboard" class="view-card hidden">
+      <div class="card">
+        <div class="row" style="justify-content:space-between;align-items:center;">
+          <h2>Dashboard Guru</h2>
+          <div>
+            <!-- NOTE: change hashes to just '#...' so handler matches -->
+            <button class="btn" onclick="location.hash='#addquestion'">Overview</button>
+            <button class="btn ghost" onclick="location.hash='#questions'">Daftar Soal</button>
+            <button class="btn ghost" onclick="location.hash='#results'">Hasil Siswa</button>
+            <button id="teacher-logout" class="btn ghost">Logout</button>
+          </div>
+        </div>
+
+        <div class="stats-row" style="margin-top:14px;">
+          <div class="stats-card">
+            <h3 id="stat-classes">0</h3>
+            <p>Kelas</p>
+          </div>
+          <div class="stats-card">
+            <h3 id="stat-students">0</h3>
+            <p>Siswa</p>
+          </div>
+          <div class="stats-card">
+            <h3 id="stat-results">0</h3>
+            <p>Hasil Tercatat</p>
+          </div>
+          <div class="stats-card">
+            <h3 id="stat-questions">0</h3>
+            <p>Soal</p>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;">
+          <p class="muted">Gunakan menu di atas untuk mengelola soal atau melihat hasil siswa per kelas.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== VIEW: ADD QUESTION (teacher.html#addquestion) ====== -->
+    <section id="view-addquestion" class="view-card hidden">
+      <div class="card">
+        <h2>Tambah Soal Baru</h2>
+        <!-- ensure id matches script.js -->
+        <form id="add-question-form">
+          <label>Stage</label>
+          <select id="q-stage">
+            <option value="1">1 - Mudah</option>
+            <option value="2">2 - Sedang</option>
+            <option value="3">3 - Sulit</option>
+          </select>
+
+          <label>Jenis Soal</label>
+          <select id="q-type">
+            <option value="mcq">Pilihan Ganda</option>
+            <option value="tf">Benar / Salah</option>
+            <option value="short">Isian Singkat</option>
+          </select>
+
+          <label>Pertanyaan</label>
+          <textarea id="q-text" rows="3" placeholder="Tulis pertanyaan..." required></textarea>
+
+          <div id="q-options-box">
+            <label>Opsi (pisahkan dengan || )</label>
+            <input id="q-options" placeholder="A||B||C||D (hanya untuk MCQ)" />
+          </div>
+
+          <label>Jawaban Benar</label>
+          <input id="q-answer" placeholder="contoh: 4 atau Benar" required />
+
+          <label>Nilai (skor)</label>
+          <input id="q-score" type="number" value="1" min="1" />
+
+          <label>Pembahasan (opsional)</label>
+          <textarea id="q-explain" rows="2" placeholder="Pembahasan singkat..."></textarea>
+
+          <div class="row" style="margin-top:10px;">
+            <button class="btn" type="submit">Simpan Soal</button>
+            <button class="btn ghost" type="button" onclick="location.hash='#questions'">Batal</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ====== VIEW: QUESTIONS (teacher.html#questions) ====== -->
+    <section id="view-questions" class="view-card hidden">
+      <div class="card">
+        <div class="row" style="justify-content:space-between;align-items:center;">
+          <h2>Daftar Soal</h2>
+          <div>
+            <button class="btn" onclick="location.hash='#addquestion'">Tambah Soal</button>
+            <button id="export-questions" class="btn ghost">Export JSON</button>
+            <button class="btn ghost" onclick="location.hash='#dashboard'">Kembali</button>
+          </div>
+        </div>
+
+        <div id="questions-list" style="margin-top:12px;"></div>
+      </div>
+    </section>
+
+    <!-- ====== VIEW: RESULTS (teacher.html#results) ====== -->
+    <section id="view-results" class="view-card hidden">
+      <div class="card">
+        <div class="row" style="justify-content:space-between;align-items:center;">
+          <h2>Hasil Siswa</h2>
+          <div>
+            <button class="btn ghost" onclick="location.hash='#dashboard'">Kembali</button>
+          </div>
+        </div>
+
+        <div id="classes-list" style="margin-top:12px;"></div>
+      </div>
+    </section>
+
+    <!-- ====== VIEW: STUDENT DETAIL (teacher.html#studentdetail) ====== -->
+    <section id="view-studentdetail" class="view-card hidden">
+      <div class="card">
+        <div class="row" style="justify-content:space-between;align-items:center;">
+          <h2>Detail Siswa</h2>
+          <div>
+            <button class="btn ghost" onclick="location.hash='#results'">Kembali</button>
+          </div>
+        </div>
+
+        <div id="student-detail-content" style="margin-top:12px;"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 CHECKMyXy — Asesmen Interaktif</p>
+  </footer>
+
+  <script src="firebase-config.js"></script>
+  <script type="module" src="firebase-config.js"></script>
+  <script src="script.js"></script>
+  <script>
+    if(!location.hash) location.hash = '#login';
+    window.addEventListener('hashchange', ()=> window.scrollTo({ top:0, behavior:'smooth' }));
+  </script>
+</body>
+</html>
